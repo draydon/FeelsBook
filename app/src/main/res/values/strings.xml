@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Draydon-FeelsBook</string>
+    <string name="love">Love</string>
+    <string name="joy">Joy</string>
+    <string name="surprise">Surprise</string>
+    <string name="anger">Anger</string>
+    <string name="fear">Fear</string>
+    <string name="record">Record</string>
+
+</resources>
