@@ -10,10 +10,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class EmotionHistoryActivity extends AppCompatActivity {
+
+    public Record selectedRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +53,20 @@ public class EmotionHistoryActivity extends AppCompatActivity {
                 adb.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Record record = records.get(finalPosition);
-                        RecordListController.getRecordListSingleton().deleteRecord(record);
+                        selectedRecord = records.get(finalPosition);
+                        RecordListController.getRecordListSingleton().deleteRecord(selectedRecord);
                     }
                 });
 
                 adb.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Record record = records.get(finalPosition);
+                        selectedRecord = records.get(finalPosition);
                         Intent intent = new Intent(EmotionHistoryActivity.this, EditRecordActivity.class);
-                        //intent.putExtra
+                       //intent.putExtra("record",(new Gson()).toJson(record));
+                        intent.putExtra("recordType", selectedRecord.getType());
+                        intent.putExtra("recordTimeStamp", selectedRecord.getTimeStamp());
+                        intent.putExtra("recordComment", selectedRecord.getComment());
                         startActivity(intent);
                     }
                 });

@@ -4,6 +4,7 @@ public class RecordListController {
 
     //Lazy Singleton
     private static RecordList recordListSingleton = null;
+
     static public RecordList getRecordListSingleton(){
         if(recordListSingleton == null){
             recordListSingleton = new RecordList();
@@ -16,4 +17,5 @@ public class RecordListController {
     public void deleteRecord(Record record){
         getRecordListSingleton().deleteRecord(record);
     }
+
 }
