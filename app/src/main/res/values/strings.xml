@@ -13,5 +13,11 @@
     <string name="enter_an_optional_comment_here">Enter an optional comment here.</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="loveimage">loveImage</string>
+    <string name="joyimage">joyImage</string>
+    <string name="surpriseimage">surpriseImage</string>
+    <string name="angerimage">angerImage</string>
+    <string name="fearimage">fearImage</string>
+    <string name="emptyCount">##</string>
 
 </resources>

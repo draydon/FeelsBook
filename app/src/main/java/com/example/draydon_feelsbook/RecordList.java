@@ -23,6 +23,7 @@ public class RecordList implements Serializable{
     public void addRecord(Record record){
         recordList.add(record);
         recordCounter.incrementCount(record.getType());
+        sortRecords();
         notifyListeners();
     }
 
@@ -41,6 +42,10 @@ public class RecordList implements Serializable{
         Collections.sort(this.recordList, new ChronologicalComparator());
     }
 
+    public RecordCounter getRecordCounter() {
+        return recordCounter;
+    }
+
     public void addListener(Listener listener){
         listenerList.add(listener);
     }
@@ -49,7 +54,7 @@ public class RecordList implements Serializable{
         listenerList.remove(listener);
     }
 
-    private void notifyListeners(){
+    public void notifyListeners(){
         for(Listener listener: listenerList){
             listener.update();
         }
