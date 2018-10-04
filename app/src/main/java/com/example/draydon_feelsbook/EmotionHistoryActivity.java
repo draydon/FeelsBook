@@ -1,5 +1,6 @@
 package com.example.draydon_feelsbook;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -23,8 +25,9 @@ public class EmotionHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.emotion_history);
+
+        updateCounters();
         ListView listView = findViewById(R.id.emotionListView);
-        RecordListController.getRecordListSingleton().sortRecords();
         Collection<Record> recordCollection = RecordListController.getRecordListSingleton().getRecords();
         final ArrayList<Record> records = new ArrayList<Record>(recordCollection);
         final ArrayAdapter<Record> recordArrayAdapter = new ArrayAdapter<Record>(this, android.R.layout.simple_list_item_1, records);
@@ -34,6 +37,7 @@ public class EmotionHistoryActivity extends AppCompatActivity {
         RecordListController.getRecordListSingleton().addListener(new Listener() {
             @Override
             public void update() {
+                updateCounters();
                 records.clear();
                 Collection<Record> recordCollection = RecordListController.getRecordListSingleton().getRecords();
                 records.addAll(recordCollection);
@@ -67,7 +71,7 @@ public class EmotionHistoryActivity extends AppCompatActivity {
                         intent.putExtra("recordType", selectedRecord.getType());
                         intent.putExtra("recordTimeStamp", selectedRecord.getTimeStamp());
                         intent.putExtra("recordComment", selectedRecord.getComment());
-                        startActivity(intent);
+                        startActivityForResult(intent,1);
                     }
                 });
 
@@ -82,5 +86,34 @@ public class EmotionHistoryActivity extends AppCompatActivity {
             return false;
             }
         });
+    }
+
+
+    //TODO: Another case where this smells, using a counter like this was not as helpful as
+    // I initially thought. The setting is also a little convoluted.
+    public void updateCounters(){
+        TextView loveCount = findViewById(R.id.loveCount);
+        TextView joyCount = findViewById(R.id.joyCount);
+        TextView surpriseCount = findViewById(R.id.surpriseCount);
+        TextView angerCount = findViewById(R.id.angerCount);
+        TextView fearCount = findViewById(R.id.fearCount);
+        RecordCounter recordCounter = RecordListController.getRecordListSingleton().getRecordCounter();
+
+        loveCount.setText(recordCounter.getCount("Love").toString());
+        joyCount.setText(recordCounter.getCount("Joy").toString());
+        surpriseCount.setText(recordCounter.getCount("Surprise").toString());
+        angerCount.setText(recordCounter.getCount("Anger").toString());
+        fearCount.setText(recordCounter.getCount("Fear").toString());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1){
+            if(resultCode == Activity.RESULT_OK){
+                String editedComment = data.getStringExtra("editedComment");
+                selectedRecord.setComment(editedComment);
+                RecordListController.getRecordListSingleton().notifyListeners();
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // TODO : Find a way to improve this. Reflection?
     public void addLove(View v){
         Toast.makeText(this,"Adding Love", Toast.LENGTH_SHORT).show();
         EditText commentText = findViewById(R.id.commentText);
