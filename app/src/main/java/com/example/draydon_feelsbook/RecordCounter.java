@@ -23,7 +23,7 @@ public class RecordCounter {
         if (countMap.containsKey(emotion)){
             count = countMap.get(emotion) - 1;
         }
-        countMap.put(emotion,count);
+        countMap.put(emotion, count);
     }
 
     public Integer getCount(String emotion){

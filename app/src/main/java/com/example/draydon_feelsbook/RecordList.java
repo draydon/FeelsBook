@@ -22,13 +22,14 @@ public class RecordList implements Serializable{
 
     public void addRecord(Record record){
         recordList.add(record);
-        recordCounter.incrementCount(record.toString());
+        recordCounter.incrementCount(record.getType());
         notifyListeners();
     }
 
     public void deleteRecord(Record record){
         recordList.remove(record);
-        recordCounter.decrementCount(record.toString());
+        recordCounter.decrementCount(record.getType());
+        sortRecords();
         notifyListeners();
     }
 
@@ -42,10 +43,9 @@ public class RecordList implements Serializable{
 
     public void addListener(Listener listener){
         listenerList.add(listener);
-
     }
 
-    public void removeListener(Listener listener){
+    public void removeListener(Listener listener) {
         listenerList.remove(listener);
     }
 

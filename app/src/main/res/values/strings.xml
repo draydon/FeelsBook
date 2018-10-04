@@ -6,5 +6,12 @@
     <string name="anger">Anger</string>
     <string name="fear">Fear</string>
     <string name="record">Record</string>
+    <string name="enter_an_optional_comment_100_char_max">Enter an optional comment (100 char. max)</string>
+    <string name="yyyy_mm_dd_hh_mm">YYYY/MM/DD/HH/MM</string>
+    <string name="comment_optional">Comment (Optional):</string>
+    <string name="date">Date</string>
+    <string name="enter_an_optional_comment_here">Enter an optional comment here.</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
