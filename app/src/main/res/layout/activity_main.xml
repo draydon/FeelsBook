@@ -98,6 +98,7 @@
         android:ems="10"
         android:hint="@string/enter_an_optional_comment_100_char_max"
         android:inputType="textPersonName"
+        android:maxLength="100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fearButton" />
