@@ -11,9 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,6 +27,7 @@ public class EmotionHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.emotion_history);
+        RecordListManager.initializeManager(this.getApplicationContext());
 
         updateCounters();
         ListView listView = findViewById(R.id.emotionListView);
@@ -67,7 +70,6 @@ public class EmotionHistoryActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         selectedRecord = records.get(finalPosition);
                         Intent intent = new Intent(EmotionHistoryActivity.this, EditRecordActivity.class);
-                       //intent.putExtra("record",(new Gson()).toJson(record));
                         intent.putExtra("recordType", selectedRecord.getType());
                         intent.putExtra("recordTimeStamp", selectedRecord.getTimeStamp());
                         intent.putExtra("recordComment", selectedRecord.getComment());
@@ -88,7 +90,6 @@ public class EmotionHistoryActivity extends AppCompatActivity {
         });
     }
 
-
     //TODO: Another case where this smells, using a counter like this was not as helpful as
     // I initially thought. The setting is also a little convoluted.
     public void updateCounters(){
@@ -106,12 +107,22 @@ public class EmotionHistoryActivity extends AppCompatActivity {
         fearCount.setText(recordCounter.getCount("Fear").toString());
     }
 
+    //Specifically deals with the case of "Editing"
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 1){
             if(resultCode == Activity.RESULT_OK){
                 String editedComment = data.getStringExtra("editedComment");
+                String editedTimeStamp = data.getStringExtra("newDateSet")+
+                        data.getStringExtra("newTimeSet");
+                Toast.makeText(this,editedTimeStamp + " We Here", Toast.LENGTH_SHORT).show();
                 selectedRecord.setComment(editedComment);
+                try {
+                    selectedRecord.setTimeStamp(editedTimeStamp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                RecordListController.getRecordListSingleton().sortRecords();
                 RecordListController.getRecordListSingleton().notifyListeners();
             }
         }

@@ -1,8 +1,9 @@
 package com.example.draydon_feelsbook;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class RecordCounter {
+public class RecordCounter implements Serializable{
     private HashMap<String, Integer> countMap;
     private Integer count;
 
