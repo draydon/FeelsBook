@@ -6,9 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Record implements Serializable {
-
 
     private transient SimpleDateFormat simpleDateFormat;
     private GregorianCalendar calendar;
@@ -18,7 +18,7 @@ public class Record implements Serializable {
     Record(String comment){
         this.calendar = new GregorianCalendar();
         this.comment = comment;
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.CANADA);
     }
 
     public Date getDate(){
@@ -33,7 +33,7 @@ public class Record implements Serializable {
     public void setComment(String comment){
         this.comment = comment;
     }
-    public String getType(){return type;};
+    public String getType(){return type;}
     public void setType(String type){this.type=type;}
 
     @Override
@@ -42,68 +42,12 @@ public class Record implements Serializable {
     }
 
     public String getTimeStamp(){
-        String timeStamp = simpleDateFormat.format(this.getDate());
-        return timeStamp;
+        return simpleDateFormat.format(this.getDate());
     }
 
     public void setTimeStamp(String timeStamp) throws ParseException {
         Date date = simpleDateFormat.parse(timeStamp);
         calendar.setTime(date);
     }
-
-
-
 }
 
-/* OG WORKING ONE
-public class Record implements Serializable {
-    private SimpleDateFormat simpleDateFormat;
-    private GregorianCalendar calendar;
-    private String comment;
-    private String emotion = "default";
-
-
-    Record(){
-        this.calendar = new GregorianCalendar();
-        this.comment = "";
-    }
-
-    Record(String comment){
-        this.calendar = new GregorianCalendar();
-        this.comment = comment;
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-    }
-
-    public Date getDate(){
-        return this.calendar.getTime();
-    }
-
-    public String getComment(){
-        return this.comment;
-    }
-
-    public String getTimeStamp(){
-        String timeStamp = simpleDateFormat.format(this.getDate());
-        return timeStamp;
-    }
-
-    public void setTimeStamp(String timeStamp) throws ParseException {
-        Date date = simpleDateFormat.parse(timeStamp);
-        calendar.setTime(date);
-    }
-
-    public void setComment(String comment){
-        this.comment = comment;
-    }
-
-    @Override
-    public String toString(){
-        String stringRepresentation = getType() +
-                "\n" + getComment() +
-                "\n" + getTimeStamp();
-        return stringRepresentation;
-    }
-
-    public String getType(){return emotion;}
-}
- */

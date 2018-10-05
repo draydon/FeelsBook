@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -64,6 +65,7 @@ public class EditRecordActivity extends AppCompatActivity {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -74,7 +76,6 @@ public class EditRecordActivity extends AppCompatActivity {
 
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
-
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -127,6 +128,4 @@ public class EditRecordActivity extends AppCompatActivity {
             dateSelectionButton.setText(newDateButtonString);
         }
     }
-
-
 }

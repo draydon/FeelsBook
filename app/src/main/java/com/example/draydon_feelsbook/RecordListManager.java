@@ -26,84 +26,60 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RecordListManager {
-    static final String prefFile = "RecordList";
-    static final String rlKey = "recordList";
+    static final private String prefFile = "RecordList";
+    static final private String rlKey = "recordList";
     static private RecordListManager recordListManager = null;
     Context context;
 
-        public RecordListManager(Context context){
-            this.context = context;
+    public RecordListManager(Context context){
+        this.context = context;
+    }
+
+    public static void initializeManager(Context context){
+        if(recordListManager == null){
+            if(context == null){
+                throw new RuntimeException("Missing context for RecordListManager");
+            }
+            recordListManager = new RecordListManager(context);
         }
+    }
 
-        public static void initializeManager(Context context){
-            if(recordListManager == null){
-                if(context == null){
-                    throw new RuntimeException("Missing context for RecordListManager");
-                }
-                recordListManager = new RecordListManager(context);
-            }
+    public static RecordListManager getManager(){
+        if(recordListManager == null){
+            throw new RuntimeException("Did not initialize Manager");
         }
+        return recordListManager;
+    }
 
-        public static RecordListManager getManager(){
-            if(recordListManager == null){
-                throw new RuntimeException("Did not initialize Manager");
-            }
-            return recordListManager;
+    public RecordList loadRecordList() throws IOException, ClassNotFoundException {
+        SharedPreferences settings = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE);
+        String RecordListData = settings.getString(rlKey, "");
+        if(RecordListData.equals("")){
+            return new RecordList();
+        }else{
+            return recordListFromString(RecordListData);
         }
+    }
 
-//        public RecordList loadRecordList() throws IOException, ClassNotFoundException {
-//            SharedPreferences settings = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE);
-//            Gson gson = new Gson();
-//            String json = settings.getString(rlKey, "");
-//
-//            RecordList loadedRecordList = gson.fromJson(json, RecordList.class);
-//            if(loadedRecordList == null){
-//                loadedRecordList = new RecordList();
-//            }
-//            return loadedRecordList;
-//        }
-//
-//
-//        public void saveRecordList(RecordList rl) throws IOException {
-//            SharedPreferences settings = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = settings.edit();
-//
-//            Gson gson = new Gson();
-//            String json = gson.toJson(rl);
-//            editor.putString(rlKey, json);
-//
-//            editor.commit();
-//        }
-            public RecordList loadRecordList() throws IOException, ClassNotFoundException {
-                SharedPreferences settings = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE);
-                String RecordListData = settings.getString(rlKey, "");
-                if(RecordListData.equals("")){
-                    return new RecordList();
-                }else{
-                    return recordListFromString(RecordListData);
-                }
-            }
+    static private RecordList recordListFromString(String RecordListData) throws ClassNotFoundException, IOException{
+        ByteArrayInputStream bi = new ByteArrayInputStream(Base64.decode(RecordListData,Base64.DEFAULT));
+        ObjectInputStream oi = new ObjectInputStream(bi);
+        return (RecordList)oi.readObject();
+    }
 
-            static private RecordList recordListFromString(String RecordListData) throws ClassNotFoundException, IOException{
-                ByteArrayInputStream bi = new ByteArrayInputStream(Base64.decode(RecordListData,Base64.DEFAULT));
-                ObjectInputStream oi = new ObjectInputStream(bi);
-                return (RecordList)oi.readObject();
-            }
+    static private String recordListToString(RecordList rl) throws IOException {
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        ObjectOutputStream oo = new ObjectOutputStream(bo);
+        oo.writeObject(rl);
+        oo.close();
+        byte bytes[] = bo.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
 
-            static private String recordListToString(RecordList rl) throws IOException {
-                ByteArrayOutputStream bo = new ByteArrayOutputStream();
-                ObjectOutputStream oo = new ObjectOutputStream(bo);
-                oo.writeObject(rl);
-                oo.close();
-                byte bytes[] = bo.toByteArray();
-                return Base64.encodeToString(bytes, Base64.DEFAULT);
-            }
-
-            public void saveRecordList(RecordList rl) throws IOException {
-                SharedPreferences settings = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString(rlKey, recordListToString(rl));
-                editor.commit();
-            }
-
+    public void saveRecordList(RecordList rl) throws IOException {
+        SharedPreferences settings = context.getSharedPreferences(prefFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(rlKey, recordListToString(rl));
+        editor.commit();
+    }
 }
