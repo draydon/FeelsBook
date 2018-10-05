@@ -61,7 +61,10 @@ public class EditRecordActivity extends AppCompatActivity {
     }
 
 
-    //TODO: Make this whole Date/Time selection/update not disgusting
+    /*Code adapted from:
+    *Android Developers, Pickers, https://developer.android.com/guide/topics/ui/controls/pickers#java,
+    *updated 2018-09-18, retrieved 2018-10-02
+    */
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -87,7 +90,10 @@ public class EditRecordActivity extends AppCompatActivity {
             updateDateSelectionButton();
         }
     }
-
+    /*Code adapted from:
+     *Android Developers, Pickers, https://developer.android.com/guide/topics/ui/controls/pickers#java,
+     *updated 2018-09-18, retrieved 2018-10-02
+     */
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 

@@ -3,7 +3,6 @@ package com.example.draydon_feelsbook;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -11,7 +10,7 @@ import java.util.Locale;
 public class Record implements Serializable {
 
     private transient SimpleDateFormat simpleDateFormat;
-    private transient GregorianCalendar calendar;
+    private GregorianCalendar calendar;
     private String type;
     private String comment;
     private String timeStamp;
@@ -23,31 +22,34 @@ public class Record implements Serializable {
         this.timeStamp = simpleDateFormat.format(calendar.getTime());
     }
 
-    public Date getDate(){
+    public Date getDate()  {
         return this.calendar.getTime();
     }
 
     public String getComment(){
         return this.comment;
     }
+
     public void setComment(String comment){
         this.comment = comment;
     }
+
     public String getType(){return type;}
+
     public void setType(String type){this.type=type;}
 
-    @Override
-    public String toString(){
-        return "Record [type=" + type + ", comment=" + comment + ", timeStamp" + timeStamp + "]";
-    }
-
     public String getTimeStamp(){
-        return simpleDateFormat.format(this.getDate());
+        return this.timeStamp;
     }
 
     public void setTimeStamp(String timeStamp) throws ParseException {
         Date date = simpleDateFormat.parse(timeStamp);
         calendar.setTime(date);
+    }
+
+    @Override
+    public String toString(){
+        return getType() + "\n" + getComment() + "\n" + getTimeStamp();
     }
 }
 

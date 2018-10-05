@@ -90,6 +90,8 @@ public class EmotionHistoryActivity extends AppCompatActivity {
         });
     }
 
+
+
     //TODO: Another case where this smells, using a counter like this was not as helpful as
     // I initially thought. The setting is also a little convoluted.
     public void updateCounters(){
@@ -115,8 +117,8 @@ public class EmotionHistoryActivity extends AppCompatActivity {
                 String editedComment = data.getStringExtra("editedComment");
                 String editedTimeStamp = data.getStringExtra("newDateSet")+
                         data.getStringExtra("newTimeSet");
-                Toast.makeText(this,editedTimeStamp + " We Here", Toast.LENGTH_SHORT).show();
                 selectedRecord.setComment(editedComment);
+
                 try {
                     selectedRecord.setTimeStamp(editedTimeStamp);
                 } catch (ParseException e) {

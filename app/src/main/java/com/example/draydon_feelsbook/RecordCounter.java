@@ -3,6 +3,11 @@ package com.example.draydon_feelsbook;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/*
+    Decided to use this method of a counter for the sake of the
+    open-closed principle. Though the backend does OCP pretty well,
+    the front end absolutely does not.
+ */
 public class RecordCounter implements Serializable{
     private HashMap<String, Integer> countMap;
     private Integer count;
